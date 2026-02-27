@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset=\"UTF-8\" />
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
   <title>TODO List</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" />
+  <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css\" />
   <style>
     html, body {
       height: 100%;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif;
     }
     body {
       display: flex;
@@ -255,14 +255,14 @@
       });
     }
 
-    function createTaskElement(task) {
+    function.createTaskElement(task) {
       const li = document.createElement('li');
-      li.className = `task-item ${task.completed ? 'completed' : ''}`;
+      li.className = 	ask-item ;
       li.dataset.id = task.id;
 
-      li.innerHTML = `
-        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} />
-        <span class="task-title">${escapeHtml(task.title)}</span>
+      li.innerHTML = 
+        <input type="checkbox" class="task-checkbox"  />
+        <span class="task-title"></span>
         <div class="task-actions">
           <button class="edit-btn" title="Edit task">
             <i class="bi bi-pencil"></i>
@@ -271,7 +271,7 @@
             <i class="bi bi-trash"></i>
           </button>
         </div>
-      `;
+      ;
 
       const checkbox = li.querySelector('.task-checkbox');
       const editBtn = li.querySelector('.edit-btn');
@@ -321,7 +321,7 @@
         }
 
         try {
-          const response = await fetch(`${API_URL}/${task.id}`, {
+          const response = await fetch(${API_URL}/, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: newTitle, completed: task.completed })
@@ -369,7 +369,7 @@
 
     async function toggleTask(id, completed) {
       try {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(${API_URL}/, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ completed })
@@ -407,7 +407,7 @@
       if (!confirm('Are you sure you want to delete this task?')) return;
 
       try {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(${API_URL}/, {
           method: 'DELETE'
         });
 
@@ -429,10 +429,10 @@
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
-        '"': '&quot;',
+        '\"': '&quot;',
         "'": '&#039;'
       };
-      return text.replace(/[&<>"']/g, m => map[m]);
+      return text.replace(/[&<>\"']/g, m => map[m]);
     }
   </script>
 </body>
