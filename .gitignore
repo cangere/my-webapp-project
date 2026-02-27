@@ -1,0 +1,16 @@
+.vscode/
+
+target/
+
+# SQLite database file
+todo.db
+
+# IDE files
+*.iml
+.idea/
+
+# logs
+*.log
+
+# packaged WAR
+*.war
