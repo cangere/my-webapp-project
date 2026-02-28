@@ -8,6 +8,28 @@
   <name>my-webapp-project Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
+    <!-- Jakarta Servlet API for compilation (provided by Tomcat 11+) -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- SQLite JDBC driver for local database -->
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.45.0.0</version>
+    </dependency>
+
+    <!-- JSON library for request/response payloads -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
