@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset=\"UTF-8\" />
-  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TODO List</title>
-  <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css\" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" />
   <style>
     html, body {
       height: 100%;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
     body {
       display: flex;
@@ -255,13 +255,13 @@
       });
     }
 
-    function.createTaskElement(task) {
+    function createTaskElement(task) {
       const li = document.createElement('li');
-      li.className = 	ask-item ;
+      li.className = 'task-item';
       li.dataset.id = task.id;
 
-      li.innerHTML = 
-        <input type="checkbox" class="task-checkbox"  />
+      li.innerHTML = `
+        <input type="checkbox" class="task-checkbox" />
         <span class="task-title"></span>
         <div class="task-actions">
           <button class="edit-btn" title="Edit task">
@@ -271,11 +271,16 @@
             <i class="bi bi-trash"></i>
           </button>
         </div>
-      ;
+      `;
 
       const checkbox = li.querySelector('.task-checkbox');
+      const titleSpan = li.querySelector('.task-title');
       const editBtn = li.querySelector('.edit-btn');
       const deleteBtn = li.querySelector('.delete-btn');
+
+      // populate values
+      titleSpan.textContent = escapeHtml(task.title);
+      checkbox.checked = !!task.completed;
 
       checkbox.addEventListener('change', () => toggleTask(task.id, checkbox.checked));
       editBtn.addEventListener('click', () => startEdit(li, task));
@@ -313,31 +318,6 @@
       input.focus();
       input.select();
 
-      const save = async () => {
-        const newTitle = input.value.trim();
-        if (!newTitle) {
-          cancelEdit();
-          return;
-        }
-
-        try {
-          const response = await fetch(${API_URL}/, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: newTitle, completed: task.completed })
-          });
-
-          if (!response.ok) throw new Error('Failed to update task');
-
-          task.title = newTitle;
-          cancelEdit();
-          loadTasks();
-        } catch (error) {
-          console.error('Error updating task:', error);
-          alert('Failed to update task');
-        }
-      };
-
       const cancelEdit = () => {
         input.replaceWith(titleSpan);
         li.classList.remove('editing');
@@ -358,18 +338,44 @@
         actionsDiv.appendChild(newDeleteBtn);
       };
 
+      const save = async () => {
+        const newTitle = input.value.trim();
+        console.log('saving task', task.id, newTitle);
+        if (!newTitle) {
+          cancelEdit();
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/${task.id}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: newTitle, completed: task.completed })
+          });
+
+          if (!response.ok) throw new Error('Failed to update task');
+
+          task.title = newTitle;
+          cancelEdit();
+          loadTasks();
+        } catch (error) {
+          console.error('Error updating task:', error);
+          alert('Failed to update task');
+        }
+      };
+
       saveBtn.addEventListener('click', save);
       cancelBtn.addEventListener('click', cancelEdit);
       input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') save();
         if (e.key === 'Escape') cancelEdit();
       });
-      input.addEventListener('blur', cancelEdit);
+      // removed blur listener; clicking buttons should not cancel before action
     }
 
     async function toggleTask(id, completed) {
       try {
-        const response = await fetch(${API_URL}/, {
+        const response = await fetch(`${API_URL}/${id}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ completed })
@@ -407,7 +413,7 @@
       if (!confirm('Are you sure you want to delete this task?')) return;
 
       try {
-        const response = await fetch(${API_URL}/, {
+        const response = await fetch(`${API_URL}/${id}`, {
           method: 'DELETE'
         });
 
