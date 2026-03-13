@@ -5,5 +5,18 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <!-- explicit servlet mapping in case annotations are ignored -->
+  <servlet>
+    <servlet-name>TasksServlet</servlet-name>
+    <servlet-class>com.example.todo.servlet.TasksServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TasksServlet</servlet-name>
+    <url-pattern>/api/tasks</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TasksServlet</servlet-name>
+    <url-pattern>/api/tasks/*</url-pattern>
+  </servlet-mapping>
 
 </web-app>
