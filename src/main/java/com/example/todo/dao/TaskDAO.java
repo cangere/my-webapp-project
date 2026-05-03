@@ -98,6 +98,8 @@ public class TaskDAO {
 
     public boolean update(Task t) throws SQLException {
         String sql = "UPDATE tasks SET title = ?, completed = ? WHERE id = ?";
+        if(!sql)
+        return 0;
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, t.getTitle());
